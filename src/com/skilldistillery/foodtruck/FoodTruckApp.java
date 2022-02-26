@@ -22,19 +22,31 @@ public class FoodTruckApp {
 	public FoodTruck[] collectFoodTruckInfo(Scanner kb, FoodTruck ft) {
 
 		int numOfFoodTrucks = 0;
+		double rating = 0.0;
+		double remainder = 0.0;
 		FoodTruck[] ftArr = new FoodTruck[MAX_FOOD_TRUCKS];
 
 		do {
-			System.out.println("Enter the information for up to " + MAX_FOOD_TRUCKS + " food trucks below:");
+			System.out.println("Enter the information for up to " + MAX_FOOD_TRUCKS + " more food trucks (Enter 'Quit' to exit):");
+			decrementMAX_FOOD_TRUCKS();
 			System.out.print("\nEnter the name of the Food Truck: ");
-			String name = kb.next();
+			String name = kb.nextLine();
 			if (name.equalsIgnoreCase("quit")) {
 				break;
 			}
 			System.out.print("Enter the food type: ");
-			String foodType = kb.next();
-			System.out.print("Enter the rating: "); //TODO Add rating range
-			double rating = kb.nextDouble();
+			String foodType = kb.nextLine();
+			System.out.print("Enter the rating [0.0 - 10]: ");
+			//ensures the user enters a rating within the valid range of 0.0-10.0
+			do {
+				rating = kb.nextDouble();
+				remainder = Math.round((rating % .1 ) * 10000000000.0) / 10000000000.0;
+				System.out.println();
+				if ((remainder > 0 && remainder < .1) || rating < 0 || rating > 10) {
+					System.out.print("[Invalid rating] Try again: ");
+				}
+				kb.nextLine();
+			} while ((remainder > 0 && remainder < .1) || rating < 0 || rating > 10);
 			System.out.println();
 
 			ftArr[numOfFoodTrucks] = new FoodTruck(name, foodType, rating);
@@ -50,14 +62,34 @@ public class FoodTruckApp {
 		int choice;
 
 		do {
-			System.out.println("\nChoose from the following options: \n");
-			System.out.println("1) List all food trucks");
-			System.out.println("2) List the average rating of all food trucks");
-			System.out.println("3) List the highest rated food truck");
-			System.out.println("4) Quit\n");
+			// prints menu with borders
+			System.out.print("\n\u250c");
+			for (int i = 0; i < 47; i++)
+				System.out.print("\u2500");
+			System.out.println("\u2510");
+			System.out.println("\u2502 Choose from the following options:            \u2502");
+			System.out.print("\u251c");
+			for (int i = 0; i < 47; i++)
+				System.out.print("\u2500");
+			System.out.println("\u2524");
+			System.out.println("\u2502 1) List all food trucks                       \u2502");
+			System.out.println("\u2502 2) List the average rating of all food trucks \u2502");
+			System.out.println("\u2502 3) List the highest rated food truck          \u2502");
+			System.out.println("\u2502 4) Quit                                       \u2502");
+			System.out.print("\u2514");
+			for (int i = 0; i < 47; i++)
+				System.out.print("\u2500");
+			System.out.println("\u2518");
+			System.out.print(" \u21f6 ");
 			choice = kb.nextInt();
 			System.out.println();
 
+			// catch invalid options
+			if (choice > 4 || choice < 1) {
+				System.out.println(" Invalid option");
+				continue;
+			}
+			// moves into switch if the array isn't empty or if user selects to quit
 			if (ftArr[0] != null || choice == 4) {
 
 				switch (choice) {
@@ -77,12 +109,12 @@ public class FoodTruckApp {
 				}
 
 			} else {
-
+				// notifies user if they didn't enter any food truck information
 				if (choice != 4)
 					System.out.println("There are no food trucks!");
 
 			}
-
+			// loops menu
 		} while (choice != 4);
 
 	}
@@ -95,7 +127,7 @@ public class FoodTruckApp {
 
 		for (FoodTruck truck : ftArr) {
 			if (truck != null) {
-				System.out.println(truck.toString()); // ********************************
+				System.out.println(truck.toString());
 			}
 		}
 
@@ -110,8 +142,8 @@ public class FoodTruckApp {
 				numOfRatings++;
 				ratingTotal += truck.getRating();
 			}
-		} // TODO round and printf the rating
-		System.out.println("Average Rating: " + ratingTotal / numOfRatings);
+		}
+		System.out.printf(" Average Rating: %.1f", Math.round((ratingTotal / numOfRatings) * 100.0) / 100.0);
 		System.out.println();
 
 	}
@@ -127,6 +159,10 @@ public class FoodTruckApp {
 			}
 		}
 		System.out.println(ftArr[index].toString());
+	}
+	
+	public void decrementMAX_FOOD_TRUCKS() {
+		MAX_FOOD_TRUCKS--;
 	}
 
 }

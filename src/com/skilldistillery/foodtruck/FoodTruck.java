@@ -2,7 +2,7 @@ package com.skilldistillery.foodtruck;
 
 public class FoodTruck {
 
-	private static int cumulativeTruckID = 1000;
+	private static int cumulativeTruckID = 1;
 
 	private String name;
 	private String foodType;
@@ -18,7 +18,6 @@ public class FoodTruck {
 		setFoodType(foodType);
 		setRating(rating);
 		setTruckID();
-		// TODO Auto-generated constructor stub
 	}
 
 	public String getName() {
@@ -55,10 +54,11 @@ public class FoodTruck {
 	
 	public String toString() {
 		
-		return "Name     : " + this.getName() + 
-		"\nID       : " + this.getTruckID() +
-		"\nFood Type: " + this.getFoodType() +
-		"\nRating   : " + this.getRating() + "\n";
+		return 
+		" Name     : " + this.getName() + 
+		"\n Food Type: " + this.getFoodType() +
+		"\n Rating   : " + this.getRating() +
+		"\n ID       : 00" + this.getTruckID() + "\n";
 				
 	}
 
