@@ -52,5 +52,14 @@ public class FoodTruck {
 	public void setTruckID() {
 		this.truckID = cumulativeTruckID++;
 	}
+	
+	public String toString() {
+		
+		return "Name     : " + this.getName() + 
+		"\nID       : " + this.getTruckID() +
+		"\nFood Type: " + this.getFoodType() +
+		"\nRating   : " + this.getRating() + "\n";
+				
+	}
 
 }
